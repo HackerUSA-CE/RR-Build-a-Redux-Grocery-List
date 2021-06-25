@@ -18,11 +18,6 @@ const todoReducer = (state = initialState.todos, action) => {
                     completed: false
                 }
             ]
-        case 'todo/toggle':
-            return state.map(todo => 
-                (todo.id === action.id) 
-                ? {...todo, completed : !todo.completed } 
-                : todo)
         case 'todo/clear':
             return []
         default:
