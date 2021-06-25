@@ -1,13 +1,13 @@
-const addBtn = document.getElementById('addTodo')
+const grocerySubmit = document.getElementById('addGrocery')
 const list = document.getElementById('list')
 const clearBtn = document.getElementById('clear')
 
 const initialState = {
-    todos: []
+    groceries: []
 }
-let nextTodoId = 0
+let nextGroceryId = 0
 
-const todoReducer = (state = initialState.todos, action) => {
+const todoReducer = (state = initialState.groceries, action) => {
     switch(action.type) {
         case 'todo/add':
             return [
@@ -31,24 +31,25 @@ let store = Redux.createStore(todoReducer)
 const renderList = (state) => {
     while(list.firstChild) list.removeChild(list.firstChild)
     if(state.length > 0){
-        state.forEach(todo => {
+        state.forEach(grocery => {
             let li = document.createElement('li')
             list.appendChild(li)
-            li.innerHTML = todo.text
+            li.innerHTML = grocery.text
         })
     }
 }
 
-const newTodo = () => {
-    let todoText = document.getElementById('newItem').value
+const newGrocery = (e) => {
+    e.preventDefault()
+    let groceryText = document.getElementById('newItem').value
     store.dispatch({
         type: 'todo/add',
-        id: nextTodoId++,
-        text: todoText
+        id: nextGroceryId++,
+        text: groceryText
     })
 }
 
-const clearTodo = () => {
+const clearList = () => {
     document.getElementById('newItem').value = ''
     store.dispatch({
         type: 'todo/clear'
@@ -60,8 +61,8 @@ const render = () => {
     renderList(state)
 }
 
-addBtn.addEventListener('click', newTodo)
-clearBtn.addEventListener('click', clearTodo)
+grocerySubmit.addEventListener('submit', (e) => {newGrocery(e)})
+clearBtn.addEventListener('click', clearList)
 
 render()
 
